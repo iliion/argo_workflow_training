@@ -20,21 +20,23 @@
 
   ```
   apiVersion: argoproj.io/v1alpha1
-  kind: Workflow                 
+  kind: Workflow
   metadata:
-    generateName: container-   
+    generateName: container-
   spec:
-    entrypoint: main         
+    entrypoint: main
     templates:
-    - name: main             
+    - name: main
       container:
         image: docker/whalesay
         command: [cowsay]         
         args: ["hello world"]
   ```
+  
+  Change to the ***templates*** directory.
 
   Let's run the workflow:
-  `argo submit --watch container-workflow.yaml`
+  `argo submit --watch container-workflow.yaml -n argo`
 
   And you can view that workflows logs:
   `argo logs -n argo @latest`
@@ -57,10 +59,10 @@
   `cat template-tag-workflow.yaml`
 
   Submit this workflow:
-  `argo submit --watch template-tag-workflow.yaml`
+  `argo submit --watch template-tag-workflow.yaml -n argo`
 
   You can see the output by running
-  `argo logs @latest`
+  `argo logs -n argo @latest `
 
 ## Work Templates
   A *container set* allows you to run multiple containers in a single pod. This is useful when you want the containers to share a common workspace.
@@ -69,11 +71,13 @@
   A *script template* allows you to run a script in a container. This is very similar to a container template, but when you've added a script to it.
 
   Every type of templates that does work does it by running a pod. So you can use *kubectl* to view these pods:
-  `kubectl get pods -l workflows.argoproj.io/workflow`
+  `kubectl get pods -l workflows.argoproj.io/workflow -n argo`
+  Or by using the Argo CLI:
+  `argo list pods -n argo`
+
 
   You can identify workflow pods by the workflows.argoproj.io/workflow label.
   Use kubectl describe to describe a workflow pod. What interesting information is contained within the pods labels and annotations?
-  `kubectl get pods -l workflows.argoproj.io/workflow`
 
 ## DAG Template
   A DAG template is another common type of template, lets look at a complete example:
@@ -110,7 +114,7 @@
   The DAG has two tasks: "a" and "b". Both run the **whalesay** template, but as "b" depends on "a", it won't start until "a" has completed successfully.
 
   Let's run the workflow:
-  `argo submit --watch dag-workflow.yaml`
+  `argo submit --watch dag-workflow.yaml -n argo`
 
   Add a new task named "c" to the DAG. Make it depend on both "a" and "b". See how this looks in the user interface.
 
@@ -134,7 +138,7 @@
   ```
 
   In this example, it will execute once for each of the listed items. We can see a template tag here. {{item}} will be replaced with "hello world" and "goodbye world". DAGs execute in parallel, so both tasks will be started at the same time.
-  `argo submit --watch with-items-workflow.yaml`
+  `argo submit --watch with-items-workflow.yaml -n argo`
 
   Notice how the two items ran at the same time.
 
@@ -169,7 +173,7 @@
 
   Attention!!!
   None of the templates that orchestrate work run pods. You can check by
-  `kubectl get pods`
+  `kubectl get pods -n argo`
 
 ## Exit Handler
   If you need to perform a task after something has is finished, you can use an exit handle. Exit handlers are specified using ***onExit***:
@@ -186,6 +190,5 @@
   `cat exit-handler-workflow.yaml`
 
   Run it:
-  `argo submit --watch exit-handler-workflow.yaml`
+  `argo submit --watch exit-handler-workflow.yaml -n argo`
 
-# Combine them together to make complex workflows.

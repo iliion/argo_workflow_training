@@ -6,4 +6,4 @@ spec:
   schedule: "* * * * *"
   workflowSpec:
     workflowTemplateRef:
-      name: hellocontrolplane 
+      name: hello

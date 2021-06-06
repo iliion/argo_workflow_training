@@ -13,7 +13,7 @@
   Finally, the Argo Server provides a user interface and API:
   `kubectl -n argo get deploy argo-server`
 
-  Before we proceed, let wait (around 1 minute to 2 minutes)
+  Before we proceed, lets wait (around 1 minute to 2 minutes)
   for our deployments to be available:
   `kubectl -n argo wait deploy --all --for condition=Available --timeout 2m`
 
@@ -52,9 +52,9 @@
 
   You should see HTTP/1.1 200 OK.
 
-  ## Run a workflow
+## Run a workflow
 
-# Run your first workflow from the user interface.
+### Run your first workflow from the user interface.
   Open the "Argo Server"
   Paste the following yaml into the editor
 
@@ -70,8 +70,8 @@
       container:
         image: docker/whalesay
   ```
-
-# Download, install, and run the Argo CLI.
+  
+### Download, install, and run the Argo CLI.
   To run workflows, the easiest way is to use the Argo CLI, you can download it as follows:
 
   ```
@@ -86,7 +86,7 @@
 
   Let's run a workflow!
   `argo submit -n argo --watch https://raw.githubusercontent.com/argoproj/argo-workflows/master/examples/hello-world.yaml`
-
+  
   You can list workflows easily:
   `argo list -n argo`
 
@@ -98,3 +98,25 @@
 
   Finally, you can get help:
   `argo --help`
+
+
+# RBAC - WORKFLOW SERVICE ACCOUNT 
+
+> serviceaccount --> (rolebinding) --> role
+
+List roles
+`kubectl -n argo get role`
+`kubectl -n argo get role workflow-role`
+`kubectl -n argo get role workflow-role -o yaml`
+
+Assign role to serviceaccount
+`kubectl -n argo create serviceaccount planetek`
+`kubectl -n argo create rolebinding planetek --serviceaccount=argo:planetek --role=workflow-role`
+
+Submit workflow 
+`argo -n argo submit --serviceaccount planetek simple_wf.yaml --watch`
+
+Check
+`kubectl -n argo get workflow | grep from*`
+
+

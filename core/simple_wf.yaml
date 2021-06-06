@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1
+kind: Workflow
+metadata:
+  generateName: from-cli-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      container:
+        name: pod
+        image: 'docker/whalesay:latest'
+        command:
+          - bash
+          - -c
+        args:
+          - "echo 'Hello again!'"

@@ -2,6 +2,8 @@
   One type of input or output is a parameter. Unlike artifacts, these are plain string values, and are useful for most simple cases.
 
 ## Input Parameters
+  Change to the ***parameters*** directory.
+
   Lets have a look at an example:
 
   ```
@@ -22,11 +24,11 @@
   See how the workflow itself has arguments.
 
   Run it:
-  `argo submit --watch input-parameters-workflow.yaml`
-  `argo submit --watch input-parameters-workflow.yaml -p message='Hi Katacoda!'`
+  `argo submit --watch input-parameters-workflow.yaml -n argo`
+  `argo submit --watch input-parameters-workflow.yaml -p message='Hello whale! Why do you feel blue?' -n argo`
 
   Check logs:
-  `argo logs @latest`
+  `argo logs @latest -n argo`
 
 
 ## Output Parameters
@@ -40,7 +42,7 @@
       args: ["echo -n hello world > /tmp/hello_world.txt"]
     outputs:
       parameters:
-      - name: hello-param        
+      - name: hello-param
         valueFrom:
           path: /tmp/hello_world.txt
   ```
@@ -66,10 +68,10 @@
   `cat parameters-workflow.yaml`
 
   Run it:
-  `argo submit --watch parameters-workflow.yaml`
+  `argo submit --watch parameters-workflow.yaml -n argo`
 
   Check logs:
-  `argo logs @latest`
+  `argo logs @latest -n argo`
 
 # Artifacts
   Artifact is a fancy name for a file that is compressed and stored in S3.
@@ -150,4 +152,6 @@
   `cat artifacts-workflow.yaml`
 
   Let's run an example:
-  `argo submit --watch artifacts-workflow.yaml`
+  `argo submit --watch artifacts-workflow.yaml -n argo`
+
+

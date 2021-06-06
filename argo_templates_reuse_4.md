@@ -15,20 +15,22 @@
         container:
           image: docker/whalesay
   ```
+  
+  Change to the ***reuse*** directory.
 
   Lets create this workflow template:
-  `argo template create hello-workflowtemplate.yaml`
+  `argo template create hello-workflowtemplate.yaml -n argo`
 
   You can also manage templates using kubectl:
-  `kubectl apply -f hello-workflowtemplate.yaml`
+  `kubectl apply -f hello-workflowtemplate.yaml -n argo`
 
   This allows you to use GitOps to manage your templates.
 
   To submit a template, you can use the UI or the CLI:
-  `argo submit --watch --from workflowtemplate/hello`
+  `argo submit --watch --from workflowtemplate/hello -n argo`
 
   Check @latest
-  `argo get @latest -o yaml`
+  `argo get @latest -o yaml -n argo`
 
   Look for the workflow specification in the output:
 
@@ -41,7 +43,7 @@
 
   ***Exercise***
   Use the user interface to submit a workflow template.
-  Update the workflow template to add some parameters (e.g. to print a message). Use `argo submit --from` to submit it with different parameters.
+  Update the workflow template to add some parameters (e.g. to print a message). Use `argo -n argo submit --from` to submit it with different parameters.
 
 # Cron Workflows
   A **cron workflow** is a workflow that runs on a cron schedule:
@@ -64,9 +66,20 @@
   When it should be run is set in the schedule field, in the example every minute.
 
   Lets created this cron workflow:
-  `argo cron create hello-cronworkflow.yaml`
+  `argo cron create hello-cronworkflow.yaml -n argo`
 
   You'll need to wait for up to a minute to see the workflow run.
 
-  ***Exercise***
-  Cron workflows can be submitted immediately from the CLI or the UI. Find out how.
+  You can also manage templates using kubectl:
+  `kubectl apply -f hello-cronworkflow.yaml -n argo`
+
+  This allows you to use GitOps to manage your templates.
+
+  To submit a template, you can use the UI or the CLI:
+  `argo submit --watch --from cronworkflow/hello -n argo`
+
+  Check @latest
+  `argo get @latest -o yaml -n argo`
+
+
+
