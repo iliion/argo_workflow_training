@@ -10,6 +10,7 @@ The app, dependencies, and Dockerfile are in the `/App` folder.
 
 All Kubernetes YAML manifests are in the `Pods`, `Services`, and `Deployments` folders.
 
+-----------------------------
 
 ## K8S installation
 
