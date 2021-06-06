@@ -1,0 +1,13 @@
+{
+  "name": "container-web-test",
+  "private": true,
+  "version": "0.0.2",
+  "description": "Demo K8s app",
+  "main": "app.js",
+  "author": "Nigel Poulton <1ll1as10ann0u@gmail.com>",
+  "license": "Will contain vulnerabilities!",
+  "dependencies": {
+    "express": "4.17.1",
+    "pug": "2.0.4"
+  }
+}
