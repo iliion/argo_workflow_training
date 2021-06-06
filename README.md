@@ -1,4 +1,4 @@
 # Argo Workflows
 
 Set up microK8s.
-Install kubectl, argo cli.
+Install kubectl, argo cli .. and play 🦖
